@@ -1,5 +1,7 @@
 export async function GET(request: Request) {
-  const response = await fetch("http://localhost:4005/companyInfo");
+  const response = await fetch("http://localhost:4005/companyInfo", {
+    cache: "force-cache",
+  });
   const info = await response.json();
 
   if (!info) {
@@ -8,12 +10,12 @@ export async function GET(request: Request) {
     });
   }
 
-  const { name, desctiption, image } = info;
+  const { name, description, image } = info;
 
   return Response.json({
     companyInfo: {
       name,
-      desctiption,
+      description,
       image,
     },
   });

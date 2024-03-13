@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav className="flex gap-2 justify-center text-xl">
+        <nav className="flex gap-4 justify-center text-2xl m-5">
           <Link href="/">Home</Link>
-          <p>about</p>
+          <Link href="/about">about</Link>
           <p>report</p>
           <Link href="/todos-csr">todos-csr</Link>
           <Link href="/todos-ssr">todos-ssr</Link>

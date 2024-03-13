@@ -1,4 +1,4 @@
-import Ssr from "@/components/SSR";
+import Ssr from "@/components/Ssr";
 import React from "react";
 
 const SsrPage = () => {

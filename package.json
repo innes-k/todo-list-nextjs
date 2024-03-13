@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve": "json-server db.json --port 4005"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.27.5",

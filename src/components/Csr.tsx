@@ -31,7 +31,12 @@ const Csr = () => {
       <header className="text-4xl font-extrabold text-center m-10">
         🐈 Todo List 🐾
       </header>
-      <div className="m-10 flex gap-14 justify-center">
+      <div className="flex flex-col items-center gap-4 w-80 mx-auto border rounded-md p-4">
+        <input type="text" />
+        <input type="text" />
+        <input type="submit" value="Submit" />
+      </div>
+      <div className="m-10 flex gap-14 justify-center mx-auto">
         {todos?.map((todo) => {
           return (
             <div key={todo.id} className="border rounded-md p-4">

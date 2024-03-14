@@ -22,17 +22,12 @@ const Csr = () => {
   });
 
   const { mutate: deleteTodo } = useMutation({
-    mutationFn: async (id) => {
-      await fetch(`http://localhost:3000/api/todos`, {
+    mutationFn: async (id: string) => {
+      await fetch(`http://localhost:3000/api/todos/${id}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
       });
     },
     onSuccess: () => {
-      console.log("hi");
       queryClient.invalidateQueries({
         queryKey: ["todos"],
       });

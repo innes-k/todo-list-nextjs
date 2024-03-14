@@ -26,8 +26,17 @@ const Ssr = async () => {
             <div key={todo.id} className="relative border rounded-md p-4 px-8">
               <section className="flex flex-col gap-6">
                 <div>
-                  <p>{todo.title}</p>
-                  <li>{todo.contents}</li>
+                  {todo.isDone ? (
+                    <>
+                      <p className="line-through">{todo.title}</p>
+                      <li className="line-through">{todo.contents}</li>
+                    </>
+                  ) : (
+                    <>
+                      <p>{todo.title}</p>
+                      <li>{todo.contents}</li>
+                    </>
+                  )}
                 </div>
               </section>
             </div>

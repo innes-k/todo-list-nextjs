@@ -46,8 +46,20 @@ const InputBox = () => {
         className="flex flex-col items-center gap-4 w-80 mx-auto border rounded-md p-4"
         onSubmit={onSubmitHandler}
       >
-        <input type="text" name="title" className="text-black" required />
-        <input type="text" name="contents" className="text-black" required />
+        <input
+          type="text"
+          name="title"
+          placeholder="제목"
+          className="text-black"
+          required
+        />
+        <input
+          type="text"
+          name="contents"
+          placeholder="내용"
+          className="text-black"
+          required
+        />
         <input type="submit" value="Submit" className="cursor-pointer" />
       </form>
     </>

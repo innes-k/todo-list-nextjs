@@ -2,11 +2,15 @@
 
 import { TodosQuery } from "@/types/todos-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import InputBox from "./InputBox";
 import { useRouter } from "next/navigation";
 
 const Csr = () => {
+  const [selectedId, setSelectedId] = useState("");
+  const [nextTitle, setNextTitle] = useState("");
+  const [nextContents, setNextContents] = useState("");
+
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -69,6 +73,18 @@ const Csr = () => {
     return;
   };
 
+  const onEditHandler = (id: string, title: string, contents: string) => {
+    if (selectedId === "") {
+      setSelectedId(id);
+      setNextTitle(title);
+      setNextContents(contents);
+    }
+    // else if (selectedId === id) {
+    //   updateTodo({ nextTitle, nextContents });
+    // }
+  };
+  console.log(nextTitle, nextContents);
+
   const onToggleHandler = (id: string, isDone: boolean) => {
     toggleTodo({ id, isDone });
   };
@@ -101,21 +117,47 @@ const Csr = () => {
               </button>
               <section className="flex flex-col gap-6">
                 <div>
-                  {todo.isDone ? (
+                  {todo.isDone && (
                     <>
                       <p className="line-through">{todo.title}</p>
                       <li className="line-through">{todo.contents}</li>
                     </>
-                  ) : (
+                  )}
+                  {!todo.isDone && selectedId !== todo.id && (
                     <>
                       <p>{todo.title}</p>
                       <li>{todo.contents}</li>
                     </>
                   )}
+                  {!todo.isDone && selectedId === todo.id && (
+                    <div className="flex flex-col gap-4">
+                      <input
+                        type="text"
+                        value={nextTitle}
+                        onChange={(e) => {
+                          setNextTitle(e.target.value);
+                        }}
+                        className="text-black"
+                      />
+                      <input
+                        type="text"
+                        value={nextContents}
+                        onChange={(e) => {
+                          setNextContents(e.target.value);
+                        }}
+                        className="text-black"
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex justify-center gap-10">
-                  <button className="text-sm border bg-white text-black p-1 rounded-md">
-                    수정
+                  <button
+                    onClick={() =>
+                      onEditHandler(todo.id, todo.title, todo.contents)
+                    }
+                    className="text-sm border bg-white text-black p-1 rounded-md"
+                  >
+                    {selectedId === todo.id ? "수정완료" : "수정"}
                   </button>
                   <button
                     onClick={() => onToggleHandler(todo.id, todo.isDone)}

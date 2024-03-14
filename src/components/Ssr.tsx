@@ -7,7 +7,6 @@ const Ssr = async () => {
     cache: "no-cache",
   });
   const todos = await response.json();
-  console.log("todos", todos);
 
   return (
     <>

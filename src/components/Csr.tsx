@@ -58,6 +58,26 @@ const Csr = () => {
     },
   });
 
+  const { mutate: updateTodo } = useMutation({
+    mutationFn: async ({
+      id,
+      nextTitle,
+      nextContents,
+    }: {
+      id: string;
+      nextTitle: string;
+      nextContents: string;
+    }) => {
+      const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nextTitle, nextContents }),
+      });
+    },
+  });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -78,10 +98,9 @@ const Csr = () => {
       setSelectedId(id);
       setNextTitle(title);
       setNextContents(contents);
+    } else if (selectedId === id) {
+      updateTodo({ id, nextTitle, nextContents });
     }
-    // else if (selectedId === id) {
-    //   updateTodo({ nextTitle, nextContents });
-    // }
   };
   console.log(nextTitle, nextContents);
 

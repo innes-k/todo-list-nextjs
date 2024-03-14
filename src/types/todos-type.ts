@@ -10,3 +10,8 @@ export interface TodosQuery {
   isLoading: boolean;
   isError: boolean;
 }
+
+export interface Inputs {
+  title: string;
+  contents: string;
+}

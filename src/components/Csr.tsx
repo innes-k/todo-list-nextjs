@@ -1,17 +1,12 @@
 "use client";
 
-import { Todos, TodosQuery } from "@/types/todos-type";
+import { TodosQuery } from "@/types/todos-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-
-interface Inputs {
-  title: string;
-  contents: string;
-}
+import InputBox from "./InputBox";
 
 const Csr = () => {
   const queryClient = useQueryClient();
-
   const {
     data: todos,
     isLoading,
@@ -26,19 +21,18 @@ const Csr = () => {
     },
   });
 
-  const { mutate: updateTodo } = useMutation({
-    mutationFn: async (newTodo: Inputs) => {
-      const response = await fetch(`http://localhost:3000/api/todos`, {
-        method: "POST",
+  const { mutate: deleteTodo } = useMutation({
+    mutationFn: async (id) => {
+      await fetch(`http://localhost:3000/api/todos`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newTodo),
+        body: JSON.stringify({ id }),
       });
-      const todo = response.json();
-      return todo;
     },
     onSuccess: () => {
+      console.log("hi");
       queryClient.invalidateQueries({
         queryKey: ["todos"],
       });
@@ -52,19 +46,12 @@ const Csr = () => {
     return <div>Error</div>;
   }
 
-  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-    const contents = formData.get("contents") as string;
-
-    const newTodo = {
-      title,
-      contents,
-    };
-
-    updateTodo(newTodo);
+  const onDeleteHandler = (id: string) => {
+    const check = window.confirm("정말 삭제하시겠습니까?");
+    if (check) {
+      return deleteTodo(id);
+    }
+    return;
   };
 
   return (
@@ -72,18 +59,17 @@ const Csr = () => {
       <header className="text-4xl font-extrabold text-center m-10">
         🐈 Todo List 🐾
       </header>
-      <form
-        className="flex flex-col items-center gap-4 w-80 mx-auto border rounded-md p-4"
-        onSubmit={onSubmitHandler}
-      >
-        <input type="text" name="title" className="text-black" required />
-        <input type="text" name="contents" className="text-black" required />
-        <input type="submit" value="Submit" className="cursor-pointer" />
-      </form>
+      <InputBox />
       <div className="m-10 flex gap-14 justify-center mx-auto">
         {todos?.map((todo) => {
           return (
-            <div key={todo.id} className="border rounded-md p-4">
+            <div key={todo.id} className="relative border rounded-md p-4">
+              <button
+                className="absolute top-1 right-2 h-3"
+                onClick={() => onDeleteHandler(todo.id)}
+              >
+                x
+              </button>
               <section>
                 <p>{todo.title}</p>
                 <li>{todo.contents}</li>

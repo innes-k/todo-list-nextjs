@@ -32,3 +32,14 @@ export async function POST(request: Request) {
     todo,
   });
 }
+
+export async function DELETE(request: Request) {
+  const { id } = await request.json();
+  console.log("id", id);
+  const response = await fetch(`http://localhost:4005/todos/${id}`, {
+    method: "DELETE",
+  });
+  return Response.json({
+    id,
+  });
+}

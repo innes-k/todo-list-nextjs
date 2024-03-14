@@ -60,7 +60,7 @@ const InputBox = () => {
           className="text-black"
           required
         />
-        <input type="submit" value="Submit" className="cursor-pointer" />
+        <input type="submit" value="Submit!" className="cursor-pointer" />
       </form>
     </>
   );

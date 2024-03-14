@@ -37,6 +37,23 @@ const Csr = () => {
     },
   });
 
+  const { mutate: toggleTodo } = useMutation({
+    mutationFn: async ({ id, isDone }: { id: string; isDone: boolean }) => {
+      await fetch(`http://localhost:3000/api/todos/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isDone }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -50,6 +67,10 @@ const Csr = () => {
       return deleteTodo(id);
     }
     return;
+  };
+
+  const onToggleHandler = (id: string, isDone: boolean) => {
+    toggleTodo({ id, isDone });
   };
 
   const onReportHandler = () => {
@@ -80,14 +101,26 @@ const Csr = () => {
               </button>
               <section className="flex flex-col gap-6">
                 <div>
-                  <p>{todo.title}</p>
-                  <li>{todo.contents}</li>
+                  {todo.isDone ? (
+                    <>
+                      <p className="decoration-double">{todo.title}</p>
+                      <li className="decoration-double">{todo.contents}</li>
+                    </>
+                  ) : (
+                    <>
+                      <p>{todo.title}</p>
+                      <li>{todo.contents}</li>
+                    </>
+                  )}
                 </div>
                 <div className="flex justify-center gap-10">
                   <button className="text-sm border bg-white text-black p-1 rounded-md">
                     수정
                   </button>
-                  <button className="text-sm border bg-white text-black p-1 rounded-md">
+                  <button
+                    onClick={() => onToggleHandler(todo.id, todo.isDone)}
+                    className="text-sm border bg-white text-black p-1 rounded-md"
+                  >
                     완료
                   </button>
                 </div>

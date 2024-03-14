@@ -22,7 +22,7 @@ export default function RootLayout({
         <nav className="flex gap-4 justify-center text-2xl m-5">
           <Link href="/">Home</Link>
           <Link href="/about">about</Link>
-          <p>report</p>
+          <Link href="/report">report</Link>
           <Link href="/todos-csr">todos-csr</Link>
           <Link href="/todos-ssr">todos-ssr</Link>
         </nav>

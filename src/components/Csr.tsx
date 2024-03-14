@@ -4,9 +4,12 @@ import { TodosQuery } from "@/types/todos-type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import InputBox from "./InputBox";
+import { useRouter } from "next/navigation";
 
 const Csr = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+
   const {
     data: todos,
     isLoading,
@@ -49,13 +52,23 @@ const Csr = () => {
     return;
   };
 
+  const onReportHandler = () => {
+    router.push("/report");
+  };
+
   return (
     <>
       <header className="text-4xl font-extrabold text-center m-10">
-        🐈 Todo List 🐾
+        🐈 Todo List - CSR 🐾
       </header>
+      <button
+        onClick={onReportHandler}
+        className="bg-white text-black rounded-md absolute top-20 right-4 px-2"
+      >
+        할일 정보 통계 보러가기
+      </button>
       <InputBox />
-      <div className="m-10 flex gap-14 justify-center mx-auto">
+      <div className="m-10 flex flex-wrap gap-14 justify-center mx-auto">
         {todos?.map((todo) => {
           return (
             <div key={todo.id} className="relative border rounded-md p-4 px-8">

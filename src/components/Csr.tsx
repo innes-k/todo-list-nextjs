@@ -1,8 +1,13 @@
 "use client";
 
-import { Todos, TodosQuery } from "@/types/todos-type";
+import { TodosQuery } from "@/types/todos-type";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+
+type Inputs = {
+  example: string;
+  exampleRequired: string;
+};
 
 const Csr = () => {
   const {
@@ -26,16 +31,33 @@ const Csr = () => {
     return <div>Error</div>;
   }
 
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title");
+    const contents = formData.get("contents");
+
+    const newTodo = {
+      title,
+      contents,
+      isDone: false,
+    };
+  };
+
   return (
     <>
       <header className="text-4xl font-extrabold text-center m-10">
         🐈 Todo List 🐾
       </header>
-      <div className="flex flex-col items-center gap-4 w-80 mx-auto border rounded-md p-4">
-        <input type="text" />
-        <input type="text" />
-        <input type="submit" value="Submit" />
-      </div>
+      <form
+        className="flex flex-col items-center gap-4 w-80 mx-auto border rounded-md p-4"
+        onSubmit={onSubmitHandler}
+      >
+        <input type="text" name="title" className="text-black" required />
+        <input type="text" name="contents" className="text-black" required />
+        <input type="submit" value="Submit" className="cursor-pointer" />
+      </form>
       <div className="m-10 flex gap-14 justify-center mx-auto">
         {todos?.map((todo) => {
           return (

@@ -9,9 +9,9 @@ const AboutPage = async () => {
   const { name, description, image } = todos;
 
   return (
-    <div>
-      <li>{name}</li>
-      <li>{description}</li>
+    <div className="flex flex-col items-center p-10 gap-10">
+      <p className="text-4xl font-extrabold">{name}</p>
+      <p className="text-2xl">{description}</p>
       <img src={image} alt="" width={400} height={400} />
     </div>
   );

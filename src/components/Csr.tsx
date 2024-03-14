@@ -58,16 +58,26 @@ const Csr = () => {
       <div className="m-10 flex gap-14 justify-center mx-auto">
         {todos?.map((todo) => {
           return (
-            <div key={todo.id} className="relative border rounded-md p-4">
+            <div key={todo.id} className="relative border rounded-md p-4 px-8">
               <button
                 className="absolute top-1 right-2 h-3"
                 onClick={() => onDeleteHandler(todo.id)}
               >
                 x
               </button>
-              <section>
-                <p>{todo.title}</p>
-                <li>{todo.contents}</li>
+              <section className="flex flex-col gap-6">
+                <div>
+                  <p>{todo.title}</p>
+                  <li>{todo.contents}</li>
+                </div>
+                <div className="flex justify-center gap-10">
+                  <button className="text-sm border bg-white text-black p-1 rounded-md">
+                    수정
+                  </button>
+                  <button className="text-sm border bg-white text-black p-1 rounded-md">
+                    완료
+                  </button>
+                </div>
               </section>
             </div>
           );

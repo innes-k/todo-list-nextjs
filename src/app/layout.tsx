@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} mx-auto`}>
         <nav className="flex gap-4 justify-center text-2xl m-5">
           <Link href="/">Home</Link>
           <Link href="/about">about</Link>

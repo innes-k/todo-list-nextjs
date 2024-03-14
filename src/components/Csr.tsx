@@ -27,18 +27,23 @@ const Csr = () => {
   }
 
   return (
-    <div className="m-10 flex gap-14 justify-center">
-      {todos?.map((todo) => {
-        return (
-          <div key={todo.id}>
-            <section>
-              <p>{todo.title}</p>
-              <li>{todo.contents}</li>
-            </section>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <header className="text-4xl font-extrabold text-center m-10">
+        🐈 Todo List 🐾
+      </header>
+      <div className="m-10 flex gap-14 justify-center">
+        {todos?.map((todo) => {
+          return (
+            <div key={todo.id} className="border rounded-md p-4">
+              <section>
+                <p>{todo.title}</p>
+                <li>{todo.contents}</li>
+              </section>
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 

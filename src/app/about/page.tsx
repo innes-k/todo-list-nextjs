@@ -1,18 +1,18 @@
 import React from "react";
 
 const AboutPage = async () => {
-  const response = await fetch(`http://localhost:3000/api/company`);
+  const response = await fetch(`http://localhost:4005/companyInfo`);
 
-  const { companyInfo } = await response.json();
-  console.log(companyInfo);
+  const todos = await response.json();
+  console.log(todos);
 
-  const { name, description, image } = companyInfo;
+  const { name, description, image } = todos;
 
   return (
     <div>
       <li>{name}</li>
       <li>{description}</li>
-      {/* <Image src={image} alt="" width={400} height={400} /> */}
+      <img src={image} alt="" width={400} height={400} />
     </div>
   );
 };

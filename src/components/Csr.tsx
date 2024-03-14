@@ -103,8 +103,8 @@ const Csr = () => {
                 <div>
                   {todo.isDone ? (
                     <>
-                      <p className="decoration-double">{todo.title}</p>
-                      <li className="decoration-double">{todo.contents}</li>
+                      <p className="line-through">{todo.title}</p>
+                      <li className="line-through">{todo.contents}</li>
                     </>
                   ) : (
                     <>

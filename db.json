@@ -15,13 +15,13 @@
       "id": "2",
       "title": "초코라떼 마시기",
       "contents": "커피보다 맛있음!",
-      "isDone": true
+      "isDone": false
     },
     {
       "id": "3",
       "title": "물 마시기",
       "contents": "이게 제일 건강해",
-      "isDone": true
+      "isDone": false
     },
     {
       "id": "172a",

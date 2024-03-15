@@ -20,5 +20,10 @@ export const useToggleMutation = () => {
     },
   });
 
-  return { toggleTodo };
+  // 완료 버튼
+  const onToggleHandler = (id: string, isDone: boolean) => {
+    toggleTodo({ id, isDone });
+  };
+
+  return { onToggleHandler };
 };

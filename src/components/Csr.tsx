@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import InputBox from "./InputBox";
 import { useRouter } from "next/navigation";
 import { useTodoQuery } from "@/hooks/useTodoQuery";
@@ -14,7 +14,7 @@ const Csr = () => {
   // custom hook
   const { todos, isLoading, isError } = useTodoQuery();
   const { onDeleteHandler } = useDeleteMutation();
-  const { toggleTodo } = useToggleMutation();
+  const { onToggleHandler } = useToggleMutation();
   const {
     selectedId,
     nextTitle,
@@ -30,11 +30,6 @@ const Csr = () => {
   if (isError) {
     return <div>Error</div>;
   }
-
-  // 완료 버튼
-  const onToggleHandler = (id: string, isDone: boolean) => {
-    toggleTodo({ id, isDone });
-  };
 
   const onReportHandler = () => {
     router.push("/report");

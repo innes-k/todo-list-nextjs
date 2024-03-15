@@ -9,9 +9,9 @@ import { useToggleMutation } from "@/hooks/useToggleMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 
 const Csr = () => {
-  const [selectedId, setSelectedId] = useState("");
-  const [nextTitle, setNextTitle] = useState("");
-  const [nextContents, setNextContents] = useState("");
+  // const [selectedId, setSelectedId] = useState("");
+  // const [nextTitle, setNextTitle] = useState("");
+  // const [nextContents, setNextContents] = useState("");
 
   const router = useRouter();
 
@@ -19,7 +19,14 @@ const Csr = () => {
   const { todos, isLoading, isError } = useTodoQuery();
   const { onDeleteHandler } = useDeleteMutation();
   const { toggleTodo } = useToggleMutation();
-  const { updateTodo } = useUpdateMutation();
+  const {
+    selectedId,
+    nextTitle,
+    setNextTitle,
+    nextContents,
+    setNextContents,
+    onEditHandler,
+  } = useUpdateMutation();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -28,17 +35,17 @@ const Csr = () => {
     return <div>Error</div>;
   }
 
-  // 수정 버튼
-  const onEditHandler = (id: string, title: string, contents: string) => {
-    if (selectedId === "") {
-      setSelectedId(id);
-      setNextTitle(title);
-      setNextContents(contents);
-    } else if (selectedId === id) {
-      updateTodo({ id, nextTitle, nextContents });
-      setSelectedId("");
-    }
-  };
+  // // 수정 버튼
+  // const onEditHandler = (id: string, title: string, contents: string) => {
+  //   if (selectedId === "") {
+  //     setSelectedId(id);
+  //     setNextTitle(title);
+  //     setNextContents(contents);
+  //   } else if (selectedId === id) {
+  //     updateTodo({ id, nextTitle, nextContents });
+  //     setSelectedId("");
+  //   }
+  // };
 
   // 완료 버튼
   const onToggleHandler = (id: string, isDone: boolean) => {

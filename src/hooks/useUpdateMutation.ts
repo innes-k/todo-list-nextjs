@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const useUpdateMutation = () => {
+  const [selectedId, setSelectedId] = useState("");
+  const [nextTitle, setNextTitle] = useState("");
+  const [nextContents, setNextContents] = useState("");
+
   const queryClient = useQueryClient();
 
   const { mutate: updateTodo } = useMutation({
@@ -28,5 +33,24 @@ export const useUpdateMutation = () => {
     },
   });
 
-  return { updateTodo };
+  // 수정 버튼
+  const onEditHandler = (id: string, title: string, contents: string) => {
+    if (selectedId === "") {
+      setSelectedId(id);
+      setNextTitle(title);
+      setNextContents(contents);
+    } else if (selectedId === id) {
+      updateTodo({ id, nextTitle, nextContents });
+      setSelectedId("");
+    }
+  };
+
+  return {
+    selectedId,
+    nextTitle,
+    setNextTitle,
+    nextContents,
+    setNextContents,
+    onEditHandler,
+  };
 };

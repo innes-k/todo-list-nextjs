@@ -23,7 +23,6 @@ const Csr = () => {
     queryFn: async () => {
       const response = await fetch(`http://localhost:3000/api/todos`);
       const { todos } = await response.json();
-      console.log("todos", todos);
       return todos;
     },
   });
@@ -43,7 +42,7 @@ const Csr = () => {
 
   const { mutate: toggleTodo } = useMutation({
     mutationFn: async ({ id, isDone }: { id: string; isDone: boolean }) => {
-      await fetch(`http://localhost:3000/api/todos/${id}`, {
+      await fetch(`http://localhost:3000/api/todos/${id}/toggle`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -76,6 +75,12 @@ const Csr = () => {
         body: JSON.stringify({ nextTitle, nextContents }),
       });
     },
+    onSuccess: () => {
+      setSelectedId("");
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
   });
 
   if (isLoading) {
@@ -85,6 +90,7 @@ const Csr = () => {
     return <div>Error</div>;
   }
 
+  // x 버튼
   const onDeleteHandler = (id: string) => {
     const check = window.confirm("정말 삭제하시겠습니까?");
     if (check) {
@@ -93,6 +99,7 @@ const Csr = () => {
     return;
   };
 
+  // 수정 버튼
   const onEditHandler = (id: string, title: string, contents: string) => {
     if (selectedId === "") {
       setSelectedId(id);
@@ -102,8 +109,8 @@ const Csr = () => {
       updateTodo({ id, nextTitle, nextContents });
     }
   };
-  console.log(nextTitle, nextContents);
 
+  // 완료 버튼
   const onToggleHandler = (id: string, isDone: boolean) => {
     toggleTodo({ id, isDone });
   };

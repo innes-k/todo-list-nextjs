@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import InputBox from "./InputBox";
 import { useRouter } from "next/navigation";
+import { useTodoQuery } from "@/hooks/useTodoQuery";
 
 const Csr = () => {
   const [selectedId, setSelectedId] = useState("");
@@ -14,18 +15,8 @@ const Csr = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const {
-    data: todos,
-    isLoading,
-    isError,
-  }: TodosQuery = useQuery({
-    queryKey: ["todos"],
-    queryFn: async () => {
-      const response = await fetch(`http://localhost:3000/api/todos`);
-      const { todos } = await response.json();
-      return todos;
-    },
-  });
+  // custom hook
+  const { todos, isLoading, isError } = useTodoQuery();
 
   const { mutate: deleteTodo } = useMutation({
     mutationFn: async (id: string) => {

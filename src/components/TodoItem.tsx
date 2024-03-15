@@ -1,8 +1,10 @@
+import React, { useState } from "react";
+
 import { useDeleteMutation } from "@/hooks/useDeleteMutation";
 import { useToggleMutation } from "@/hooks/useToggleMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
-import { Todos } from "@/types/todos-type";
-import React, { useState } from "react";
+
+import type { Todos } from "@/types/todos-type";
 
 interface OwnProp {
   todo: Todos;
@@ -10,18 +12,13 @@ interface OwnProp {
 
 const TodoItem = ({ todo }: OwnProp) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [nextTitle, setNextTitle] = useState("");
+  const [nextContents, setNextContents] = useState("");
 
-  // custom hook
+  // custom hooks
   const { deleteTodo } = useDeleteMutation();
   const { toggleTodo } = useToggleMutation();
-  const {
-    selectedId,
-    nextTitle,
-    setNextTitle,
-    nextContents,
-    setNextContents,
-    onEditHandler,
-  } = useUpdateMutation();
+  const { updateTodo } = useUpdateMutation();
 
   // x(삭제)버튼 클릭 핸들러
   const onDeleteHandler = (id: string) => {
@@ -35,6 +32,18 @@ const TodoItem = ({ todo }: OwnProp) => {
   // 완료 버튼
   const onToggleHandler = (id: string, isDone: boolean) => {
     toggleTodo({ id, isDone });
+  };
+
+  // 수정 버튼
+  const onEditHandler = (id: string, title: string, contents: string) => {
+    if (!isEdit) {
+      setIsEdit((prev) => !prev);
+      setNextTitle(title);
+      setNextContents(contents);
+    } else if (isEdit) {
+      updateTodo({ id, nextTitle, nextContents });
+      setIsEdit((prev) => !prev);
+    }
   };
 
   return (
@@ -68,8 +77,23 @@ const TodoItem = ({ todo }: OwnProp) => {
                 />
               </div>
               <div className="flex justify-center gap-10">
-                <button className="text-sm border bg-white text-black p-1 rounded-md">
+                <button
+                  onClick={() =>
+                    onEditHandler(todo.id, todo.title, todo.contents)
+                  }
+                  className="text-sm border bg-white text-black p-1 rounded-md"
+                >
                   수정완료
+                </button>
+                <button
+                  onClick={() => {
+                    setIsEdit((prev) => !prev);
+                    setNextTitle(todo.title);
+                    setNextContents(todo.contents);
+                  }}
+                  className="text-sm border bg-white text-black p-1 rounded-md"
+                >
+                  취소
                 </button>
               </div>
             </>
@@ -97,7 +121,12 @@ const TodoItem = ({ todo }: OwnProp) => {
                     <li>{todo.contents}</li>
                   </div>
                   <div className="flex justify-center gap-10">
-                    <button className="text-sm border bg-white text-black p-1 rounded-md">
+                    <button
+                      onClick={() =>
+                        onEditHandler(todo.id, todo.title, todo.contents)
+                      }
+                      className="text-sm border bg-white text-black p-1 rounded-md"
+                    >
                       수정
                     </button>
                     <button
@@ -112,61 +141,6 @@ const TodoItem = ({ todo }: OwnProp) => {
             </>
           )}
         </section>
-
-        {/* <div>
-            {todo.isDone && (
-              <>
-                <p className="line-through">{todo.title}</p>
-                <li className="line-through">{todo.contents}</li>
-              </>
-            )}
-            {!todo.isDone && selectedId !== todo.id && (
-              <>
-                <p>{todo.title}</p>
-                <li>{todo.contents}</li>
-              </>
-            )}
-            {!todo.isDone && selectedId === todo.id && (
-              <div className="flex flex-col gap-4">
-                <input
-                  type="text"
-                  value={nextTitle}
-                  onChange={(e) => {
-                    setNextTitle(e.target.value);
-                  }}
-                  className="text-black"
-                />
-                <input
-                  type="text"
-                  value={nextContents}
-                  onChange={(e) => {
-                    setNextContents(e.target.value);
-                  }}
-                  className="text-black"
-                />
-              </div>
-            )}
-          </div>
-          <div className="flex justify-center gap-10">
-            {!todo.isDone && (
-              <button
-                onClick={() =>
-                  onEditHandler(todo.id, todo.title, todo.contents)
-                }
-                className="text-sm border bg-white text-black p-1 rounded-md"
-              >
-                {selectedId === todo.id ? "수정완료" : "수정"}
-              </button>
-            )}
-
-            <button
-              onClick={() => onToggleHandler(todo.id, todo.isDone)}
-              className="text-sm border bg-white text-black p-1 rounded-md"
-            >
-              {todo.isDone ? "취소" : "완료"}
-            </button>
-          </div>
-        </section> */}
       </div>
     </>
   );

@@ -3,7 +3,7 @@
 import React from "react";
 import InputBox from "./InputBox";
 import { useRouter } from "next/navigation";
-import TodoList from "./TodoList";
+import TodoListCSR from "./TodoList-CSR";
 
 const Csr = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const Csr = () => {
       </button>
       <InputBox />
       <div className="m-10 flex flex-wrap gap-14 justify-center mx-auto">
-        <TodoList />
+        <TodoListCSR />
       </div>
     </>
   );

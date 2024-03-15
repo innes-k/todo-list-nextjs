@@ -5,7 +5,7 @@ import { useToggleMutation } from "@/hooks/useToggleMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 import TodoIsDoneTrue from "./Todo-isDoneTrue";
 
-const TodoList = () => {
+const TodoListCSR = () => {
   // custom hook
   const { todos, isLoading, isError } = useTodoQuery();
   const { onDeleteHandler } = useDeleteMutation();
@@ -98,4 +98,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default TodoListCSR;

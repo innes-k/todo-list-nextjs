@@ -1,7 +1,10 @@
+import { StateType, useUpdateStore } from "@/zustand/useUpdateStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export const useUpdateMutation = () => {
+  const states = useUpdateStore((state: any): StateType => state.updateState);
+
   const [selectedId, setSelectedId] = useState("");
   const [nextTitle, setNextTitle] = useState("");
   const [nextContents, setNextContents] = useState("");
@@ -35,7 +38,7 @@ export const useUpdateMutation = () => {
 
   // 수정 버튼
   const onEditHandler = (id: string, title: string, contents: string) => {
-    if (selectedId === "") {
+    if (selectedId !== id) {
       setSelectedId(id);
       setNextTitle(title);
       setNextContents(contents);

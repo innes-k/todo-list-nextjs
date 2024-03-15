@@ -1,9 +1,14 @@
+"use client";
+
 import React from "react";
+
 import { useDeleteMutation } from "@/hooks/useDeleteMutation";
 import { useTodoQuery } from "@/hooks/useTodoQuery";
 import { useToggleMutation } from "@/hooks/useToggleMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+
 import TodoIsDoneTrue from "./Todo-isDoneTrue";
+import TodoListButtons from "./TodoListButtons";
 
 const TodoListCSR = () => {
   // custom hook
@@ -71,7 +76,13 @@ const TodoListCSR = () => {
                   </div>
                 )}
               </div>
-              <div className="flex justify-center gap-10">
+              <TodoListButtons
+                id={todo.id}
+                isDone={todo.isDone}
+                title={todo.title}
+                contents={todo.contents}
+              />
+              {/* <div className="flex justify-center gap-10">
                 {!todo.isDone && (
                   <button
                     onClick={() =>
@@ -89,7 +100,7 @@ const TodoListCSR = () => {
                 >
                   {todo.isDone ? "취소" : "완료"}
                 </button>
-              </div>
+              </div> */}
             </section>
           </div>
         );

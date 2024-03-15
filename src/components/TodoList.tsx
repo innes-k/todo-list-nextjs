@@ -1,8 +1,9 @@
+import React from "react";
 import { useDeleteMutation } from "@/hooks/useDeleteMutation";
 import { useTodoQuery } from "@/hooks/useTodoQuery";
 import { useToggleMutation } from "@/hooks/useToggleMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
-import React from "react";
+import TodoIsDoneTrue from "./Todo-isDoneTrue";
 
 const TodoList = () => {
   // custom hook
@@ -38,12 +39,11 @@ const TodoList = () => {
             </button>
             <section className="flex flex-col gap-6">
               <div>
-                {todo.isDone && (
-                  <>
-                    <p className="line-through">{todo.title}</p>
-                    <li className="line-through">{todo.contents}</li>
-                  </>
-                )}
+                <TodoIsDoneTrue
+                  isDone={todo.isDone}
+                  title={todo.title}
+                  contents={todo.contents}
+                />
                 {!todo.isDone && selectedId !== todo.id && (
                   <>
                     <p>{todo.title}</p>

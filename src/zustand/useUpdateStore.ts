@@ -15,9 +15,10 @@ export const useUpdateStore = create((set) => ({
   updateSelectedId: (id: string) =>
     set((state: StateType) => ({ ...state, selectedId: id })),
   updateTitle: (nextTitle: string) =>
-    set((state: StateType) => ({ ...state, title: nextTitle })),
-  updateContents: (nextContents: string) => (state: StateType) => ({
-    ...state,
-    contents: nextContents,
-  }),
+    set((state: StateType) => ({ ...state, nextTitle: nextTitle })),
+  updateContents: (nextContents: string) =>
+    set((state: StateType) => ({
+      ...state,
+      nextContents: nextContents,
+    })),
 }));

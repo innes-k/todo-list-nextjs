@@ -3,33 +3,10 @@
 import React from "react";
 import InputBox from "./InputBox";
 import { useRouter } from "next/navigation";
-import { useTodoQuery } from "@/hooks/useTodoQuery";
-import { useDeleteMutation } from "@/hooks/useDeleteMutation";
-import { useToggleMutation } from "@/hooks/useToggleMutation";
-import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import TodoList from "./TodoList";
 
 const Csr = () => {
   const router = useRouter();
-
-  // custom hook
-  const { todos, isLoading, isError } = useTodoQuery();
-  const { onDeleteHandler } = useDeleteMutation();
-  const { onToggleHandler } = useToggleMutation();
-  const {
-    selectedId,
-    nextTitle,
-    setNextTitle,
-    nextContents,
-    setNextContents,
-    onEditHandler,
-  } = useUpdateMutation();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error</div>;
-  }
 
   const onReportHandler = () => {
     router.push("/report");
@@ -48,73 +25,7 @@ const Csr = () => {
       </button>
       <InputBox />
       <div className="m-10 flex flex-wrap gap-14 justify-center mx-auto">
-        {todos?.map((todo) => {
-          return (
-            <div key={todo.id} className="relative border rounded-md p-4 px-8">
-              <button
-                className="absolute top-1 right-2 h-3"
-                onClick={() => onDeleteHandler(todo.id)}
-              >
-                x
-              </button>
-              <section className="flex flex-col gap-6">
-                <div>
-                  {todo.isDone && (
-                    <>
-                      <p className="line-through">{todo.title}</p>
-                      <li className="line-through">{todo.contents}</li>
-                    </>
-                  )}
-                  {!todo.isDone && selectedId !== todo.id && (
-                    <>
-                      <p>{todo.title}</p>
-                      <li>{todo.contents}</li>
-                    </>
-                  )}
-                  {!todo.isDone && selectedId === todo.id && (
-                    <div className="flex flex-col gap-4">
-                      <input
-                        type="text"
-                        value={nextTitle}
-                        onChange={(e) => {
-                          setNextTitle(e.target.value);
-                        }}
-                        className="text-black"
-                      />
-                      <input
-                        type="text"
-                        value={nextContents}
-                        onChange={(e) => {
-                          setNextContents(e.target.value);
-                        }}
-                        className="text-black"
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-center gap-10">
-                  {!todo.isDone && (
-                    <button
-                      onClick={() =>
-                        onEditHandler(todo.id, todo.title, todo.contents)
-                      }
-                      className="text-sm border bg-white text-black p-1 rounded-md"
-                    >
-                      {selectedId === todo.id ? "수정완료" : "수정"}
-                    </button>
-                  )}
-
-                  <button
-                    onClick={() => onToggleHandler(todo.id, todo.isDone)}
-                    className="text-sm border bg-white text-black p-1 rounded-md"
-                  >
-                    완료
-                  </button>
-                </div>
-              </section>
-            </div>
-          );
-        })}
+        <TodoList />
       </div>
     </>
   );

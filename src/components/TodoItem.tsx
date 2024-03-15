@@ -13,7 +13,7 @@ const TodoItem = ({ todo }: OwnProp) => {
 
   // custom hook
   const { onDeleteHandler } = useDeleteMutation();
-  const { onToggleHandler } = useToggleMutation();
+  const { toggleTodo } = useToggleMutation();
   const {
     selectedId,
     nextTitle,
@@ -22,6 +22,11 @@ const TodoItem = ({ todo }: OwnProp) => {
     setNextContents,
     onEditHandler,
   } = useUpdateMutation();
+
+  // 완료 버튼
+  const onToggleHandler = (id: string, isDone: boolean) => {
+    toggleTodo({ id, isDone });
+  };
 
   return (
     <>
@@ -68,7 +73,10 @@ const TodoItem = ({ todo }: OwnProp) => {
                     <li className="line-through">{todo.contents}</li>
                   </div>
                   <div className="flex justify-center gap-10">
-                    <button className="text-sm border bg-white text-black p-1 rounded-md">
+                    <button
+                      onClick={() => onToggleHandler(todo.id, todo.isDone)}
+                      className="text-sm border bg-white text-black p-1 rounded-md"
+                    >
                       취소
                     </button>
                   </div>
@@ -83,7 +91,10 @@ const TodoItem = ({ todo }: OwnProp) => {
                     <button className="text-sm border bg-white text-black p-1 rounded-md">
                       수정
                     </button>
-                    <button className="text-sm border bg-white text-black p-1 rounded-md">
+                    <button
+                      onClick={() => onToggleHandler(todo.id, todo.isDone)}
+                      className="text-sm border bg-white text-black p-1 rounded-md"
+                    >
                       완료
                     </button>
                   </div>

@@ -87,7 +87,7 @@ const TodoListCSR = () => {
                   onClick={() => onToggleHandler(todo.id, todo.isDone)}
                   className="text-sm border bg-white text-black p-1 rounded-md"
                 >
-                  완료
+                  {todo.isDone ? "취소" : "완료"}
                 </button>
               </div>
             </section>

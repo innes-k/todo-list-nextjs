@@ -1,11 +1,12 @@
 "use client";
 
-import { TodosQuery } from "@/types/todos-type";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import InputBox from "./InputBox";
 import { useRouter } from "next/navigation";
 import { useTodoQuery } from "@/hooks/useTodoQuery";
+import { useDeleteMutation } from "@/hooks/useDeleteMutation";
+import { useToggleMutation } from "@/hooks/useToggleMutation";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 
 const Csr = () => {
   const [selectedId, setSelectedId] = useState("");
@@ -13,66 +14,12 @@ const Csr = () => {
   const [nextContents, setNextContents] = useState("");
 
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   // custom hook
   const { todos, isLoading, isError } = useTodoQuery();
-
-  const { mutate: deleteTodo } = useMutation({
-    mutationFn: async (id: string) => {
-      await fetch(`http://localhost:3000/api/todos/${id}`, {
-        method: "DELETE",
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
-
-  const { mutate: toggleTodo } = useMutation({
-    mutationFn: async ({ id, isDone }: { id: string; isDone: boolean }) => {
-      await fetch(`http://localhost:3000/api/todos/${id}/toggle`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isDone }),
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
-
-  const { mutate: updateTodo } = useMutation({
-    mutationFn: async ({
-      id,
-      nextTitle,
-      nextContents,
-    }: {
-      id: string;
-      nextTitle: string;
-      nextContents: string;
-    }) => {
-      const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ nextTitle, nextContents }),
-      });
-    },
-    onSuccess: () => {
-      setSelectedId("");
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
+  const { onDeleteHandler } = useDeleteMutation();
+  const { toggleTodo } = useToggleMutation();
+  const { updateTodo } = useUpdateMutation();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -80,15 +27,6 @@ const Csr = () => {
   if (isError) {
     return <div>Error</div>;
   }
-
-  // x 버튼
-  const onDeleteHandler = (id: string) => {
-    const check = window.confirm("정말 삭제하시겠습니까?");
-    if (check) {
-      return deleteTodo(id);
-    }
-    return;
-  };
 
   // 수정 버튼
   const onEditHandler = (id: string, title: string, contents: string) => {
@@ -98,6 +36,7 @@ const Csr = () => {
       setNextContents(contents);
     } else if (selectedId === id) {
       updateTodo({ id, nextTitle, nextContents });
+      setSelectedId("");
     }
   };
 

@@ -7,9 +7,6 @@ import { useTodoQuery } from "@/hooks/useTodoQuery";
 import { useToggleMutation } from "@/hooks/useToggleMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 
-import TodoIsDoneTrue from "./Todo-isDoneTrue";
-import TodoListButtons from "./TodoListButtons";
-
 const TodoListCSR = () => {
   // custom hook
   const { todos, isLoading, isError } = useTodoQuery();
@@ -44,11 +41,12 @@ const TodoListCSR = () => {
             </button>
             <section className="flex flex-col gap-6">
               <div>
-                <TodoIsDoneTrue
-                  isDone={todo.isDone}
-                  title={todo.title}
-                  contents={todo.contents}
-                />
+                {todo.isDone && (
+                  <>
+                    <p className="line-through">{todo.title}</p>
+                    <li className="line-through">{todo.contents}</li>
+                  </>
+                )}
                 {!todo.isDone && selectedId !== todo.id && (
                   <>
                     <p>{todo.title}</p>
@@ -76,12 +74,6 @@ const TodoListCSR = () => {
                   </div>
                 )}
               </div>
-              {/* <TodoListButtons
-                id={todo.id}
-                isDone={todo.isDone}
-                title={todo.title}
-                contents={todo.contents}
-              /> */}
               <div className="flex justify-center gap-10">
                 {!todo.isDone && (
                   <button

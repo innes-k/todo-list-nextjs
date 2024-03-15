@@ -16,14 +16,5 @@ export const useDeleteMutation = () => {
     },
   });
 
-  // x(삭제)버튼 클릭 핸들러
-  const onDeleteHandler = (id: string) => {
-    const check = window.confirm("정말 삭제하시겠습니까?");
-    if (check) {
-      return deleteTodo(id);
-    }
-    return;
-  };
-
-  return { deleteTodo, onDeleteHandler };
+  return { deleteTodo };
 };

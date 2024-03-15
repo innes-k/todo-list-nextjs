@@ -12,7 +12,7 @@ const TodoItem = ({ todo }: OwnProp) => {
   const [isEdit, setIsEdit] = useState(false);
 
   // custom hook
-  const { onDeleteHandler } = useDeleteMutation();
+  const { deleteTodo } = useDeleteMutation();
   const { toggleTodo } = useToggleMutation();
   const {
     selectedId,
@@ -22,6 +22,15 @@ const TodoItem = ({ todo }: OwnProp) => {
     setNextContents,
     onEditHandler,
   } = useUpdateMutation();
+
+  // x(삭제)버튼 클릭 핸들러
+  const onDeleteHandler = (id: string) => {
+    const check = window.confirm("정말 삭제하시겠습니까?");
+    if (check) {
+      return deleteTodo(id);
+    }
+    return;
+  };
 
   // 완료 버튼
   const onToggleHandler = (id: string, isDone: boolean) => {

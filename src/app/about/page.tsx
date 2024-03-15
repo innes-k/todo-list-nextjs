@@ -2,11 +2,8 @@ import React from "react";
 
 const AboutPage = async () => {
   const response = await fetch(`http://localhost:4005/companyInfo`);
-
-  const todos = await response.json();
-  console.log(todos);
-
-  const { name, description, image } = todos;
+  const companyInfo = await response.json();
+  const { name, description, image } = companyInfo;
 
   return (
     <div className="flex flex-col items-center p-10 gap-10">
